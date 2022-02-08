@@ -94,11 +94,12 @@ h2 {
 .form button {
   cursor: pointer;
   background-color: #3498db;
-  border: 2px solid #3498db;
+  border: 0 solid #3498db;
+  padding: 10px;
   border-radius: 4px;
   color: #fff;
   display: block;
   font-size: 16px;
-  margin-top: 20px;
+  margin-top: 25px;
   width: 100%;
 }
