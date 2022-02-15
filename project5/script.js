@@ -1,9 +1,9 @@
 const main = document.getElementById('main');
 const addUserBtn = document.getElementById('add-user');
-const doubleBtn = document.getElementById('show-millionaires');
-const showMillionaires = document.getElementById('sort-richest');
-const sortBtn = document.getElementById('calculate-wealth');
-const calculateWealthBtn = document.getElementById('double');
+const doubleBtn = document.getElementById('double');
+const showMillionaires = document.getElementById('show-millionaires');
+const sortBtn = document.getElementById('sort-richest');
+const calculateWealthBtn = document.getElementById('calculate-wealth');
 
 const url = 'https://randomuser.me/api';
 
@@ -26,8 +26,38 @@ async function getRandomUser() {
 
 function addData(obj) {
   data.push(obj);
-
   updateDOM();
+}
+
+function doubleMoney() {
+  data = data.map((user) => {
+    // console.log({ ...user, name: `${user.name} doubled` });
+    return { ...user, money: user.money * 2 };
+  });
+  updateDOM();
+}
+
+function sortByRichest() {
+  // Javascript uses string compare by default
+  // Meaning 1, 2, 11, 0 => 0, 1, 11, 2
+  // Need to pass in a compare method to sort by int value
+  data.sort((a, b) => b.money - a.money);
+  updateDOM();
+}
+
+function filterMillionaires() {
+  data = data.filter((person) => person.money >= 1000000);
+  updateDOM();
+}
+
+function reduceMoney() {
+  // accumulator, how to accumulate, bias inital value
+  wealth = data.reduce((acc, user) => (acc += parseInt(user.money)), 0);
+  const wealthEl = document.createElement('div');
+  wealthEl.innerHTML = `<h3>Total Wealth: <strong>${formatMoney(
+    wealth
+  )}</strong></h3>`;
+  main.appendChild(wealthEl);
 }
 
 // defaults to the data array
@@ -61,3 +91,7 @@ function formatMoney(num) {
 }
 
 addUserBtn.addEventListener('click', getRandomUser);
+doubleBtn.addEventListener('click', doubleMoney);
+sortBtn.addEventListener('click', sortByRichest);
+showMillionaires.addEventListener('click', filterMillionaires);
+calculateWealthBtn.addEventListener('click', reduceMoney);
