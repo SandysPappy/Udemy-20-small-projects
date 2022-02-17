@@ -1,0 +1,152 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #34495e;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 80vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+h1 {
+  margin: 20px 0 0;
+}
+
+/* For child elements to be positions absolute, */
+/* the parent container needs to be positioned relative */
+/* in order for the children elements to be absolutely */
+/* positioned relative to the parent container */
+.game-container {
+  padding: 20px 30px;
+  position: relative;
+  margin: auto; /*pushes to the middle */
+  height: 350px;
+  width: 450px;
+}
+
+.figure-container {
+  fill: transparent;
+  stroke: white;
+  stroke-width: 4px;
+  stroke-linecap: round;
+}
+
+.face {
+  stroke-width: 2px;
+  stroke-linecap: square;
+}
+
+.tongue {
+  stroke-width: 1px;
+  stroke-linecap: round;
+}
+
+.figure-part {
+  /* display: none; */
+}
+
+.wrong-letters-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.wrong-letters-container p {
+  margin: 0 0 20px;
+}
+
+.wrong-letters-container span {
+  font-size: 24px;
+}
+
+.word {
+  display: flex;
+  position: absolute;
+  bottom: 0px;
+  left: 50%; /* Only applies to the beginning of the first letter */
+  transform: translateX(
+    -50%
+  ); /* Moves the middle of the letters to the center  */
+}
+
+.letter {
+  border-bottom: 2px solid #80ccff;
+  display: inline-flex;
+  font-size: 30px;
+  margin: 0 10px 0;
+  width: 25px;
+  justify-content: center;
+  /* align-items: center; */ /* I dont this we need this one */
+}
+
+.popup-container {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* display: flex; */
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-container .popup {
+  background: #2980b9;
+  border-radius: 5px;
+  box-shadow: 0 15px 10px 3px rgba(0, 0, 0, 0.3);
+  padding: 35px 105px;
+  text-align: center;
+}
+
+.popup button {
+  cursor: pointer;
+  color: white;
+  background: rgba(27, 66, 150);
+  border: none;
+  border-radius: 5px;
+  padding: 15px 45px;
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+
+.popup h2 {
+  font-size: 50px;
+}
+
+.popup button:hover {
+  transform: scale(1.03);
+}
+.popup button:focus {
+  outline: 2px solid white;
+}
+
+.notification-container {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px 10px 0 0;
+  padding: 15px 20px;
+  position: absolute;
+  bottom: -50px;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notification-container p {
+  margin: 0;
+}
+
+.notification-container.show {
+  transform: translateY(-50px);
+}
