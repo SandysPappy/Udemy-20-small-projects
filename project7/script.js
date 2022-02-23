@@ -18,9 +18,13 @@ let selectedWord = words[Math.floor(Math.random() * words.length)];
 
 const correctLetters = [];
 const wrongLetters = [];
+let gameOver = false;
 
 // Detect keypresses
 window.addEventListener('keydown', (e) => {
+  if (gameOver) {
+    return;
+  }
   // KeyCode is depricated
   if (e.code.includes('Key')) {
     letter = e.code[3].toLowerCase();
@@ -51,6 +55,8 @@ window.addEventListener('keydown', (e) => {
 
 // Restart Game from button
 playAgainBtn.addEventListener('click', () => {
+  gameOver = false;
+
   correctLetters.splice(0);
   wrongLetters.splice(0);
 
@@ -62,6 +68,9 @@ playAgainBtn.addEventListener('click', () => {
 
 // shows the hidden words
 function displayWord() {
+  if (gameOver) {
+    return;
+  }
   wordEl.innerHTML = `
     ${
       selectedWord
@@ -86,6 +95,7 @@ function checkForWinPopup(innerWord) {
   if (innerWord === selectedWord) {
     finalMessage.innerText = 'Winner!';
     popup.style.display = 'flex';
+    gameOver = true;
   }
 }
 
@@ -137,6 +147,7 @@ function updateWrongLetters() {
       });
       finalMessage.innerText = 'You Lose 😞';
       popup.style.display = 'flex';
+      gameOver = true;
     }
     // shows parts before losing
     else if (index < errors) {
