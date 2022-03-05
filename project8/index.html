@@ -13,7 +13,7 @@
     />
     <link rel="stylesheet" href="styles.css" />
 
-    <title>Document</title>
+    <title>Meal Finder</title>
   </head>
   <body>
     <div class="container">
@@ -21,7 +21,7 @@
       <div class="flex">
         <form action="" class="flex" id="submit">
           <input type="text" id="search" placeholder="Find meals!" />
-          <button class="search-btn" id="submit">
+          <button type="submit" class="search-btn">
             <i class="fas fa-search"></i>
           </button>
         </form>
@@ -29,9 +29,9 @@
           <i class="fas fa-random"></i>
         </button>
       </div>
-      <div class="result-heading"></div>
-      <div id="meals" class="meals"></div>
-      <div class="single-meal"></div>
+      <div class="result-heading" id="result-heading"></div>
+      <div class="meals" id="meals"></div>
+      <div class="single-meal" id="single-meal"></div>
     </div>
 
     <script src="script.js"></script>
