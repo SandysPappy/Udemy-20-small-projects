@@ -1,3 +1,8 @@
+// THIS PROJECT IS NOT SAFE FROM XSS ATTACKS!
+// Copy and paste the following line into the Item
+// in the form and see what happens!
+// <img src="x" onerror="alert('HACKED! I just stole all of your login info and sent it to my database!')"/>
+
 const balance = document.getElementById('balance');
 const money_plus = document.getElementById('money-plus');
 const money_minus = document.getElementById('money-minus');
@@ -18,6 +23,8 @@ let transactions =
     ? JSON.parse(localStorage.getItem('transactions'))
     : [];
 
+// adds the data from a transaction event to the DOM
+// and adds the new transaction object to local storage
 function addTransaction(e) {
   e.preventDefault();
 
@@ -29,9 +36,15 @@ function addTransaction(e) {
       text: text.value.trim(),
       amount: Number(Number(amount.value).toFixed(2)), // lol
     };
+
     transactions.push(transaction);
-    addTransactionToDOM(transaction);
+
+    addTransactionToDOM(transaction); // adds transaction div
+
     updateDOMValues();
+
+    updateLocalStorage();
+
     text.value = '';
     amount.value = '';
   }
@@ -63,6 +76,7 @@ function addTransactionToDOM(transaction) {
   list.appendChild(item);
 }
 
+// updates the balance, income, and expenses in the DOM
 function updateDOMValues() {
   // adds up all income transactions starting at $0
   let income = transactions.reduce(
@@ -85,10 +99,19 @@ function updateDOMValues() {
   money_minus.innerText = `$${expenses}`;
 }
 
+// removes a transaction from local storage and under History the DOM
 function removeTransactionByID(id) {
   transactions = transactions.filter((transaction) => transaction.id !== id);
 
+  updateLocalStorage();
+  updateDOMValues();
+
   init();
+}
+
+// sets the local storage to the current transactions array
+function updateLocalStorage() {
+  localStorage.setItem('transactions', JSON.stringify(transactions));
 }
 
 // init app
