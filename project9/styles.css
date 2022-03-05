@@ -16,19 +16,21 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  margin: 0;
+  min-height: 100vh; /* Needs to be min to prevent cutting off */
+  min-width: 250px;
+  margin: 0 40px;
   font-family: 'Lato', sans-serif;
 }
 
 .container {
   margin: 30px auto;
   width: 75vw;
+  min-width: 275px;
 }
 
 h1 {
   letter-spacing: 1px;
-  margin: 0;
+  margin: 7px 0;
 }
 
 h3 {
