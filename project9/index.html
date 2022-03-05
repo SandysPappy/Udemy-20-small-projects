@@ -37,14 +37,19 @@
       </ul>
 
       <h3>Add new transaction</h3>
-      <form class="form">
+      <form class="form" id="form">
         <div class="form-control">
           <label for="text">Item</label>
           <input type="text" id="text" placeholder="Enter item name here" />
         </div>
         <div class="form-control">
           <label for="amount">Amount</label>
-          <input type="number" id="amount" placeholder="Enter amount here" />
+          <input
+            step="any"
+            type="number"
+            id="amount"
+            placeholder="Enter amount here"
+          />
         </div>
         <button class="btn">Add transaction</button>
       </form>

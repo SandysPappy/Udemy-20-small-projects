@@ -6,19 +6,46 @@ const form = document.getElementById('form');
 const text = document.getElementById('text');
 const amount = document.getElementById('amount');
 
-const dummyTransactions = [
-  { id: 1, text: 'Flowers', amount: -20.35 },
-  { id: 2, text: 'Salary', amount: 300 },
-  { id: 3, text: 'Book', amount: -10.77 },
-  { id: 4, text: 'Camera', amount: -150.267 },
-];
+// const dummyTransactions = [
+//   { id: 1, text: 'Flowers', amount: -20.35 },
+//   { id: 2, text: 'Salary', amount: 300 },
+//   { id: 3, text: 'Book', amount: -10.77 },
+//   { id: 4, text: 'Camera', amount: -150.267 },
+// ];
 
-let transactions = dummyTransactions;
+let transactions =
+  localStorage.getItem('transactions') !== null
+    ? JSON.parse(localStorage.getItem('transactions'))
+    : [];
+
+function addTransaction(e) {
+  e.preventDefault();
+
+  if (text.value.trim() === '' || amount.value.trim() === '') {
+    alert('Please add an item and dollar amount');
+  } else {
+    const transaction = {
+      id: generateID(),
+      text: text.value.trim(),
+      amount: Number(Number(amount.value).toFixed(2)), // lol
+    };
+    transactions.push(transaction);
+    addTransactionToDOM(transaction);
+    updateDOMValues();
+    text.value = '';
+    amount.value = '';
+  }
+}
+
+// Do not do this in real production because of possible collisions
+function generateID() {
+  return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+}
 
 // not safe from XSS
 function addTransactionToDOM(transaction) {
   // Get sign
-  const profit = transaction.amount < 0 ? true : false;
+  const profit = transaction.amount > 0 ? true : false;
 
   const item = document.createElement('li');
 
@@ -28,7 +55,9 @@ function addTransactionToDOM(transaction) {
     ${transaction.text}  <span>${profit ? '' : '('} $${Math.abs(
     transaction.amount
   )} ${profit ? '' : ')</span>'}
-    <button class="delete-btn">X</button>
+    <button class="delete-btn" onclick="removeTransactionByID(${
+      transaction.id
+    })">X</button>
     `;
 
   list.appendChild(item);
@@ -56,6 +85,12 @@ function updateDOMValues() {
   money_minus.innerText = `$${expenses}`;
 }
 
+function removeTransactionByID(id) {
+  transactions = transactions.filter((transaction) => transaction.id !== id);
+
+  init();
+}
+
 // init app
 function init() {
   list.innerHTML = '';
@@ -65,3 +100,5 @@ function init() {
 
 init();
 updateDOMValues();
+
+form.addEventListener('submit', addTransaction);
