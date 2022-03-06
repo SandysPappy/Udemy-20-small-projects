@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+:root {
+  --record-height: 120px;
+  --record-dot-height: 20px;
+  --record-midpoint: calc(
+    (var(--record-height) - var(--record-dot-height)) / -2
+  );
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-image: linear-gradient(
+    rgba(96, 11, 133, 0.865),
+    rgba(8, 24, 114, 0.947)
+  );
+  /* url('images/99.9.jpeg'); */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  min-width: 350px;
+  min-height: 400px;
+}
+
+h1 {
+  margin: 0;
+  margin-bottom: 100px;
+}
+
+.music-container {
+  background-color: white;
+  box-shadow: 0px 10px 60px 15px rgba(130, 206, 136, 0.947);
+  border-radius: 15px;
+  display: flex;
+  padding: 20px 30px;
+  position: relative;
+  margin: 100px 0;
+  z-index: 10;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.navigation .action-btn {
+  background-color: white;
+  border: 0;
+  color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  padding: 0px 8px;
+  font-size: 26px;
+  margin: 0 10px;
+}
+
+.navigation .action-btn:hover {
+  transform: scale(1.1);
+}
+
+.action-btn:nth-child(2) i {
+  font-size: 35px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.img-container {
+  position: relative;
+  width: 110px;
+}
+
+/*  */
+.img-container::after {
+  content: '';
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  height: var(--record-dot-height);
+  width: var(--record-dot-height);
+  bottom: 0;
+  left: 50%;
+  /* centered about the x-axis easily, but the */
+  /* change in the y-height depends on the size */
+  /* of each circle */
+  transform: translate(-50%, var(--record-midpoint));
+}
+
+.img-container img {
+  border-radius: 50%;
+  object-fit: cover;
+  height: var(--record-height);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  animation: rotate 10s linear infinite;
+  animation-play-state: paused;
+  animation-play-state: paused;
+}
+
+.music-container.play .img-container img {
+  animation-play-state: running;
+}
+
+@keyframes rotate {
+  from {
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, 0) rotate(360deg);
+  }
+}
+
+.music-info {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 15px 15px 0 0;
+  top: 0;
+  left: 20px;
+  width: calc(100% - 40px);
+  padding: 25px 5px 25px 130px;
+  opacity: 0;
+  transform: translateY(0%);
+  transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.music-container.play .music-info {
+  opacity: 1;
+  transform: translateY(-100%);
+}
+
+h4 {
+  margin: 0;
+}
+
+.progress-container {
+  background-color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 10px 0;
+  height: 4px;
+  width: 95%;
+}
+
+.progress {
+  background-color: rgba(96, 11, 133, 0.865);
+  border-radius: 5px;
+  height: 100%;
+  width: 40%;
+  transition: width 0.1s linear;
+}
