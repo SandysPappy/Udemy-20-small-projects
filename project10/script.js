@@ -1,3 +1,5 @@
+const body = document.getElementById('body');
+
 const musicContainer = document.getElementById('music-container');
 
 const playBtn = document.getElementById('play');
@@ -6,7 +8,7 @@ const nextBtn = document.getElementById('next');
 
 const audio = document.getElementById('audio');
 const progress = document.getElementById('progress');
-const progressContainer = document.getElementById('progress-containter-total');
+const progressContainer = document.getElementById('progress-container-total');
 
 const title = document.getElementById('title');
 const cover = document.getElementById('cover');
@@ -17,8 +19,12 @@ const coverImages = ['99.9.jpeg', 'lite_spots.jpeg', '99.9.jpeg'];
 
 let songIndex = 1;
 
+// init
+
 // initally load sond details into DOM
 loadSong(songIndex);
+
+// Functions
 
 function loadSong(songIndex) {
   title.innerText = songTitles[songIndex];
@@ -42,6 +48,88 @@ function pauseSong() {
   audio.pause();
 }
 
+function nextSong() {
+  songIndex = songIndex + 1 > songs.length - 1 ? 0 : songIndex + 1;
+  loadSong(songIndex);
+  if (musicContainer.classList.contains('play')) {
+    audio.play();
+  }
+}
+
+function prevSong() {
+  songIndex = songIndex - 1 < 0 ? songs.length - 1 : songIndex - 1;
+  loadSong(songIndex);
+  if (musicContainer.classList.contains('play')) {
+    audio.play();
+  }
+}
+
+function updateProgress(e) {
+  const { duration, currentTime } = e.srcElement;
+  let progressPercent = currentTime / duration;
+  if (!progressContainer.classList.contains('dragging')) {
+    progress.style.width = `${100 * progressPercent}%`;
+  }
+}
+
+// sets the progress UI given a windowX corrdinate
+function setProgressUI(windowX) {}
+
+function updateAudio(e) {
+  //   const width = progressContainer.clientWidth;
+  //   const clickX = e.offsetX;
+  const duration = audio.duration;
+
+  ////////////////////////////////
+
+  const windowX = e.clientX;
+  const { left, right, width } = progressContainer.getBoundingClientRect();
+
+  // progressStart is how many pixels long the progress is
+  progressStart = windowX - left;
+
+  if (progressStart < 0) {
+    progressStart = 0;
+  }
+  if (progressStart > width) {
+    progressStart = width;
+  }
+  ///////////////////////////////////////
+
+  audio.currentTime = (progressStart / width) * duration;
+
+  console.log('mouseup');
+
+  body.removeEventListener('mouseup', updateAudio);
+  body.removeEventListener('mousemove', moveProgressBar);
+  progressContainer.classList.remove('dragging');
+}
+
+function moveProgressBar(e) {
+  const windowX = e.clientX;
+  const { left, right, width } = progressContainer.getBoundingClientRect();
+
+  // progressStart is how many pixels long the progress is
+  progressStart = windowX - left;
+
+  if (progressStart < 0) {
+    progressStart = 0;
+  }
+  if (progressStart > width) {
+    progressStart = width;
+  }
+
+  progress.style.width = `${(100 * progressStart) / width}%`;
+}
+
+function setProgressBar(e) {
+  progressContainer.classList.add('dragging');
+  body.addEventListener('mousemove', moveProgressBar);
+  body.addEventListener('mouseup', updateAudio);
+}
+
+// Event listeners
+
 playBtn.addEventListener('click', () => {
   // pause if already playing
   if (musicContainer.classList.contains('play')) {
@@ -53,18 +141,12 @@ playBtn.addEventListener('click', () => {
 
 // update song index and load song
 // autoplay if already playing
-nextBtn.addEventListener('click', () => {
-  songIndex = songIndex + 1 > songs.length - 1 ? 0 : songIndex + 1;
-  loadSong(songIndex);
-  if (musicContainer.classList.contains('play')) {
-    audio.play();
-  }
-});
+nextBtn.addEventListener('click', nextSong);
 
-prevBtn.addEventListener('click', () => {
-  songIndex = songIndex - 1 < 0 ? songs.length - 1 : songIndex - 1;
-  loadSong(songIndex);
-  if (musicContainer.classList.contains('play')) {
-    audio.play();
-  }
-});
+prevBtn.addEventListener('click', prevSong);
+
+audio.addEventListener('timeupdate', updateProgress);
+
+progressContainer.addEventListener('mousedown', setProgressBar);
+
+audio.addEventListener('ended', nextSong);
