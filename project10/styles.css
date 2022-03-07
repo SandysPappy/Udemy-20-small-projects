@@ -2,7 +2,7 @@
 
 :root {
   --record-height: 120px;
-  --record-dot-height: 20px;
+  --record-dot-height: calc(var(--record-height) / 6);
   --record-midpoint: calc(
     (var(--record-height) - var(--record-dot-height)) / -2
   );
@@ -90,7 +90,9 @@ h1 {
   /* centered about the x-axis easily, but the */
   /* change in the y-height depends on the size */
   /* of each circle */
-  transform: translate(-50%, var(--record-midpoint));
+  transform: translate(-50%, calc(var(--record-midpoint)));
+  /* animation: shrink-and-expand 0.05s linear infinite; */
+  animation-play-state: running;
 }
 
 .img-container img {
@@ -104,7 +106,6 @@ h1 {
   left: 50%;
   transform: translate(-50%, 0);
   animation: rotate 10s linear infinite;
-  animation-play-state: paused;
   animation-play-state: paused;
 }
 
