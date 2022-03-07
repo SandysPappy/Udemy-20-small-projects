@@ -157,6 +157,6 @@ h4 {
   background-color: rgba(96, 11, 133, 0.865);
   border-radius: 5px;
   height: 100%;
-  width: 40%;
-  transition: width 0.1s linear;
+  width: 3%;
+  /* transition: width 0.1s linear; */
 }
