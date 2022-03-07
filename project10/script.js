@@ -9,6 +9,8 @@ const nextBtn = document.getElementById('next');
 const audio = document.getElementById('audio');
 const progress = document.getElementById('progress');
 const progressContainer = document.getElementById('progress-container-total');
+const volume = document.getElementById('volume-control');
+const volumeContainer = document.getElementById('volume-container');
 
 const title = document.getElementById('title');
 const cover = document.getElementById('cover');
@@ -18,6 +20,7 @@ const songs = ['BUS_RIDE.mp3', 'LITE_SPOTS.mp3', 'TRACK_UNO.mp3'];
 const coverImages = ['99.9.jpeg', 'lite_spots.jpeg', '99.9.jpeg'];
 
 let songIndex = 1;
+audio.volume = 1;
 
 // init
 
@@ -91,7 +94,7 @@ function updateAudio(e) {
   const { left, right, width } = progressContainer.getBoundingClientRect();
 
   // this is used twice and should be 1 function
-  progressStart = windowX - left;
+  let progressStart = windowX - left;
 
   if (progressStart < 0) {
     progressStart = 0;
@@ -113,7 +116,7 @@ function moveProgressBar(e) {
   const { left, right, width } = progressContainer.getBoundingClientRect();
 
   // progressStart is how many pixels long the progress is
-  progressStart = windowX - left;
+  let progressStart = windowX - left;
 
   if (progressStart < 0) {
     progressStart = 0;
@@ -142,14 +145,60 @@ playBtn.addEventListener('click', () => {
   }
 });
 
+function moveVolumeBar(e) {
+  // totally ignoring dry principles here
+  const windowX = e.clientX;
+  const { left, right, width } = volumeContainer.getBoundingClientRect();
+
+  // progressStart is how many pixels long the volume is
+  let volumeStart = windowX - left;
+
+  if (volumeStart < 0) {
+    volumeStart = 0;
+  }
+  if (volumeStart > width) {
+    volumeStart = width;
+  }
+  volume.style.width = `${(100 * volumeStart) / width}%`;
+  audio.volume = volumeStart / width;
+}
+
+// progressContainer has dragging class
+// need to remove it
+function updateVolume(e) {
+  const windowX = e.clientX;
+  const { left, right, width } = volumeContainer.getBoundingClientRect();
+
+  // progressStart is how many pixels long the volume is
+  let volumeStart = windowX - left;
+
+  if (volumeStart < 0) {
+    volumeStart = 0;
+  }
+  if (volumeStart > width) {
+    volumeStart = width;
+  }
+  volume.style.width = `${(100 * volumeStart) / width}%`;
+  audio.volume = volumeStart / width;
+  progressContainer.classList.remove('dragging');
+  body.removeEventListener('mouseup', updateVolume);
+  body.removeEventListener('mousemove', moveVolumeBar);
+}
+
+function setVolumeBar(e) {
+  progressContainer.classList.add('dragging');
+  body.addEventListener('mousemove', moveVolumeBar);
+  body.addEventListener('mouseup', updateVolume);
+}
+
 // update song index and load song
 // autoplay if already playing
 nextBtn.addEventListener('click', nextSong);
-
 prevBtn.addEventListener('click', prevSong);
 
 audio.addEventListener('timeupdate', updateProgress);
 
 progressContainer.addEventListener('mousedown', setProgressBar);
+volumeContainer.addEventListener('mousedown', setVolumeBar);
 
 audio.addEventListener('ended', nextSong);
