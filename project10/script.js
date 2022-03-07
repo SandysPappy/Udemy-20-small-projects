@@ -37,11 +37,16 @@ function playSong() {
   playBtn.querySelector('i.fas').classList.remove('fa-play');
   playBtn.querySelector('i.fas').classList.add('fa-pause');
 
+  cover.style.animation = 'rotate 10s linear infinite';
+
   audio.play();
 }
 
 function pauseSong() {
   musicContainer.classList.remove('play');
+
+  cover.style.animation = 'none';
+
   playBtn.querySelector('i.fas').classList.remove('fa-pause');
   playBtn.querySelector('i.fas').classList.add('fa-play');
 
@@ -85,7 +90,7 @@ function updateAudio(e) {
   const windowX = e.clientX;
   const { left, right, width } = progressContainer.getBoundingClientRect();
 
-  // progressStart is how many pixels long the progress is
+  // this is used twice and should be 1 function
   progressStart = windowX - left;
 
   if (progressStart < 0) {
@@ -97,8 +102,6 @@ function updateAudio(e) {
   ///////////////////////////////////////
 
   audio.currentTime = (progressStart / width) * duration;
-
-  console.log('mouseup');
 
   body.removeEventListener('mouseup', updateAudio);
   body.removeEventListener('mousemove', moveProgressBar);
