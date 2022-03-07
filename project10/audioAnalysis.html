@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <audio id="audioElement" src="music/BUS_RIDE.mp3"></audio>
+    <canvas id="wave"></canvas>
+    <div>
+      <button onclick="document.getElementById('audioElement').play()">
+        Play the Audio
+      </button>
+      <button onclick="document.getElementById('audioElement').pause()">
+        Pause the Audio
+      </button>
+      <button onclick="document.getElementById('audioElement').volume+=0.1">
+        Increase Volume
+      </button>
+      <button onclick="document.getElementById('audioElement').volume-=0.1">
+        Decrease Volume
+      </button>
+    </div>
+    <script src="audioAnalysis.js"></script>
+  </body>
+</html>
