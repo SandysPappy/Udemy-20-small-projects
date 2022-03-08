@@ -99,7 +99,9 @@ function checkBottom(e) {
 
 function filterPosts(e) {
   const term = e.target.value.toUpperCase();
-  //   const termRegex = new RegExp(term);
+
+  const termRegex = new RegExp(term);
+
   const posts = document.querySelectorAll('.post'); // node list
 
   posts.forEach((post) => {
