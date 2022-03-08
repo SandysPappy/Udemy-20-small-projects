@@ -1,11 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 :root {
-  --record-height: 120px;
+  --record-offset: -75px;
+  --record-height: 140px;
   --record-dot-height: calc(var(--record-height) / 6);
-  --record-midpoint: calc(
-    (var(--record-height) - var(--record-dot-height)) / -2
-  );
 }
 
 * {
@@ -24,7 +22,8 @@ body {
   align-items: center;
   justify-content: center;
   font-family: 'Lato', sans-serif;
-  margin: 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
   min-width: 350px;
   min-height: 400px;
 }
@@ -85,15 +84,17 @@ h1 {
   position: absolute;
   height: var(--record-dot-height);
   width: var(--record-dot-height);
-  bottom: 0;
+  bottom: 50%;
   left: 50%;
   /* centered about the x-axis easily, but the */
   /* change in the y-height depends on the size */
   /* of each circle */
-  transform: translate(-50%, calc(var(--record-midpoint)));
-  /* animation: shrink-and-expand 0.05s linear infinite; */
-  animation-play-state: running;
+  transform: translate(-50%, 50%) translateY(var(--record-offset));
 }
+
+/* .img-container::after {
+  animation: slide 0.2s linear ease-in;
+} */
 
 .img-container img {
   -webkit-user-drag: none;
@@ -102,9 +103,9 @@ h1 {
   object-fit: cover;
   height: var(--record-height);
   position: absolute;
-  bottom: 0;
+  bottom: 50%;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 50%) translateY(var(--record-offset));
   animation: rotate 10s linear infinite;
   animation-play-state: paused;
 }
@@ -115,10 +116,12 @@ h1 {
 
 @keyframes rotate {
   from {
-    transform: translate(-50%, 0) rotate(0deg);
+    transform: translate(-50%, 50%) translateY(var(--record-offset))
+      rotate(0deg);
   }
   to {
-    transform: translate(-50%, 0) rotate(360deg);
+    transform: translate(-50%, 50%) translateY(var(--record-offset))
+      rotate(360deg);
   }
 }
 
@@ -192,4 +195,14 @@ h4 {
   width: 100%;
   height: 100%;
   background-color: rgba(96, 11, 133, 0.865);
+}
+
+.canvas {
+  display: flex;
+  margin-bottom: 30px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  min-height: 100%;
+  min-width: 100%;
 }

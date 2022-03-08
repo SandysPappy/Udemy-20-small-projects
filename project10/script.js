@@ -61,7 +61,8 @@ function pauseSong() {
 
   // pauses drawing animation
   clearInterval(animation);
-  audioElement.pause();
+
+  document.documentElement.style.setProperty('--record-height', '140px');
 }
 
 function nextSong() {
@@ -251,7 +252,7 @@ audio.addEventListener('ended', nextSong);
 // ////////////////////////////
 // copied off stack overflow
 //Step size (pixels per 20ms)
-var stepSize = 10;
+var stepSize = 8;
 
 //Without var to make it a global variable accessable by the html onclick attribute
 audioElement = document.getElementById('audio');
@@ -284,7 +285,7 @@ var ctx = canvas.getContext('2d');
 ctx.strokeStyle = '#ff1eff';
 
 //Draw thicker lines due to high dpi scaling
-ctx.lineWidth = 1;
+ctx.lineWidth = 5;
 
 //Store y values
 var drawY = [canvas.height];
@@ -344,8 +345,6 @@ function drawWave() {
 
   //Store new y value
   drawY.push(y);
-
-  console.log(drawY.length);
 
   // prevents memory leak with the occational O(n) call
   if (drawY.length >= canvas.width) {
