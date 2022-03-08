@@ -16,7 +16,6 @@ async function getPosts() {
   const res = await fetch(`${apiURL}posts?_limit=${limit}&_page=${page}`); // returns promise
   const data = await res.json(); // returns promise
 
-  console.log(data);
   return data; // is a promise
 }
 
@@ -98,8 +97,28 @@ function checkBottom(e) {
   }
 }
 
+function filterPosts(e) {
+  const term = e.target.value.toUpperCase();
+  //   const termRegex = new RegExp(term);
+  const posts = document.querySelectorAll('.post'); // node list
+
+  posts.forEach((post) => {
+    const title = post.querySelector('.post-title').innerText.toUpperCase();
+    const body = post.querySelector('.post-body').innerText.toUpperCase();
+
+    // gives index of match
+    if (title.indexOf(term) > -1 || body.indexOf(term) > -1) {
+      post.style.display = 'flex';
+    } else {
+      post.style.display = 'none';
+    }
+  });
+}
+
 // init
 showPosts();
 
 // detects scroll to bottom of page and loads new data
 window.addEventListener('scroll', checkBottom);
+
+filter.addEventListener('input', filterPosts);
