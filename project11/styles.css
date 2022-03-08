@@ -35,11 +35,11 @@ h1 {
 }
 
 .post {
-  margin: 20px;
+  margin: 50px 20px;
   position: relative;
   background-color: rgb(66, 135, 202);
   box-shadow: 0 2px 9px rgba(0, 0, 0, 0.3);
-  padding: 2vh;
+  padding: 3vh;
   width: 80vw;
   max-width: 800px;
 }
@@ -73,11 +73,11 @@ h1 {
 }
 
 .loader {
-  /* opacity: 0; */
+  opacity: 0;
   display: flex;
   position: fixed;
   bottom: 1vh;
-  transition: opacity 0.3s ease-in;
+  transition: opacity 0.1s ease-in;
 }
 
 .loader.show {
@@ -89,7 +89,7 @@ h1 {
   border-radius: 50%;
   width: 10px;
   height: 10px;
-  margin: 5px;
+  margin: 15px 5px;
   animation: bounce 0.82s ease-in infinite;
   /* animation-play-state: paused; */
 }
@@ -104,10 +104,10 @@ h1 {
 @keyframes bounce {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(-10px);
   }
 
   50% {
-    transform: translateY(-10px);
+    transform: translateY(0);
   }
 }
