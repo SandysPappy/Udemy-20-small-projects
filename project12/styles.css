@@ -18,8 +18,10 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100%;
-  min-width: 100%;
+  min-height: 100vh;
+  min-width: 100vw;
+  height: 100%;
+  width: 100%;
   background-color: var(--primary-color);
 }
 
@@ -38,6 +40,7 @@ body {
   background-color: var(--secondary-color);
   color: white;
   font-size: 24px;
+  z-index: 1;
 }
 
 .settings-btn:hover:active {
@@ -52,6 +55,14 @@ body {
 
 .settings-btn:hover {
   box-shadow: 0px 0px 2px 1px #fff;
+}
+
+.settings {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  min-height: 150vh;
+  min-width: 150vw;
+  display: none;
 }
 
 .settings-form {
@@ -70,21 +81,29 @@ body {
   height: 30px;
   top: 32px;
   left: 150px;
-  /* display: none; */
 }
 
 label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
   font-size: 30px;
   width: 200px;
   height: 60px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 5px;
+  user-select: none;
+
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-top: 1px solid black;
+  background-color: var(--secondary-color);
 }
 
 .difficulty {
-  /* position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 50%); */
+  background-color: #bbb;
   padding: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -94,6 +113,38 @@ label {
   font-size: 25px;
   text-align: center;
   appearance: none;
+  border: 0;
+  border: 1px solid black;
+}
+
+h2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 60px 0;
+}
+
+small {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.time-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-text {
+  width: 100%;
+  height: 100%;
+  padding: 5px 0;
+  text-align: center;
 }
 
 @keyframes rotate {
