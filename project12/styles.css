@@ -76,8 +76,7 @@ body {
 label {
   background-color: white;
   font-size: 30px;
-  min-width: 200px;
-  width: 20vw;
+  width: 200px;
   height: 60px;
 }
 
@@ -90,7 +89,7 @@ label {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   min-width: 200px;
-  width: 20vw;
+  width: 200px;
   height: 60px;
   font-size: 25px;
   text-align: center;
