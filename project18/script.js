@@ -76,7 +76,7 @@ const brickInfo = {
   visible: true,
 };
 
-// create bricks in memory
+// init bricks in memory
 const bricks = [];
 for (let i = 0; i < brickRowCount; i++) {
   bricks[i] = [];
@@ -87,17 +87,24 @@ for (let i = 0; i < brickRowCount; i++) {
   }
 }
 
-console.time();
 // not doing for each here because I wanna be faster
 // literlly TENS of nanoseconds faster! lol
 function drawBricks() {
   for (let i = 0; i < brickRowCount; i++) {
     for (let j = 0; j < brickColCount; j++) {
-      ctx.beginPath();
-      ctx.rect(bricks[i][j].x, bricks[i][j].y, bricks[i][j].w, bricks[i][j].h);
-      ctx.fillStyle = '#0095dd';
-      ctx.fill();
-      ctx.closePath();
+      if (bricks[i][j].visible) {
+        ctx.beginPath();
+        ctx.rect(
+          bricks[i][j].x,
+          bricks[i][j].y,
+          bricks[i][j].w,
+          bricks[i][j].h
+        );
+        ctx.fillStyle = bricks[i][j].visible ? '#0095dd' : 'transparent';
+        ctx.fill();
+        ctx.closePath();
+        continue;
+      }
     }
   }
 }
@@ -149,8 +156,59 @@ function movePaddle() {
   }
 }
 
+function moveBall() {
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  // applying the normal force on ball when hitting left&right and top&bottom walls
+  ball.dy =
+    ball.y <= 0 || ball.y + ball.size >= canvas.height
+      ? (ball.dy *= -1)
+      : ball.dy;
+  ball.dx =
+    ball.x <= 0 || ball.x + ball.size >= canvas.width
+      ? (ball.dx *= -1)
+      : ball.dx;
+
+  // paddle collision
+  if (
+    ball.x - ball.size > paddle.x &&
+    ball.x + ball.size < paddle.x + paddle.w &&
+    ball.y + ball.size > paddle.y
+  ) {
+    if (ball.dy < 0) {
+      return;
+    } else {
+      ball.dy *= -1;
+    }
+  }
+
+  // brick collision
+  bricks.forEach((column) => {
+    column.forEach((brick) => {
+      if (brick.visible) {
+        if (
+          ball.x - ball.size > brick.x && // left brick side check
+          ball.x + ball.size < brick.x + brick.w && // right brick side check
+          ball.y + ball.size > brick.y && // top brick side check
+          ball.y - ball.size < brick.y + brick.h // bottom brick side check
+        ) {
+          ball.dy *= -1;
+          brick.visible = false;
+
+          increaseScore();
+        }
+      }
+    });
+  });
+}
+
+function increaseScore() {
+  score += 1;
+}
 // updates drawing and animation
 function update() {
+  moveBall();
   movePaddle();
   drawAll();
   requestAnimationFrame(update);
@@ -172,7 +230,6 @@ function keyUp(e) {
     paddle.dx = 0;
   }
 }
-
 update();
 
 // Keyboard event handlers
