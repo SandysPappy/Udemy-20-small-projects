@@ -127,13 +127,58 @@ function drawScore() {
 }
 
 function drawAll() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall();
   drawPaddle();
   drawScore();
   drawBricks();
 }
 
-drawAll();
+// only moves on x-axis
+function movePaddle() {
+  paddle.x += paddle.dx;
 
+  // right boundary
+  if (paddle.x + paddle.w > canvas.width) {
+    paddle.x = canvas.width - paddle.w;
+  }
+
+  // left boundary
+  if (paddle.x < 0) {
+    paddle.x = 0;
+  }
+}
+
+// updates drawing and animation
+function update() {
+  movePaddle();
+  drawAll();
+  requestAnimationFrame(update);
+}
+
+function keyDown(e) {
+  if (e.key == 'Right' || e.key == 'ArrowRight') {
+    paddle.dx = paddle.speed;
+  }
+  if (e.key == 'Left' || e.key == 'ArrowLeft') {
+    paddle.dx = -paddle.speed;
+  }
+}
+function keyUp(e) {
+  if (e.key == 'Right' || e.key == 'ArrowRight') {
+    paddle.dx = 0;
+  }
+  if (e.key == 'Left' || e.key == 'ArrowLeft') {
+    paddle.dx = 0;
+  }
+}
+
+update();
+
+// Keyboard event handlers
+document.addEventListener('keydown', keyDown);
+document.addEventListener('keyup', keyUp);
+
+// rules and close handlers
 rulesBtn.addEventListener('click', () => rules.classList.add('show'));
 closeBtn.addEventListener('click', () => rules.classList.remove('show'));
