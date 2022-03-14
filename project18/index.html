@@ -19,7 +19,12 @@
       <button id="close-btn" class="btn close-btn">Close</button>
     </div>
 
-    <canvas id="canvas"></canvas>
+    <!-- We cannot use a css variable to scale the canvas.
+    CSS can only affect the external scope of the element
+    JS affects the internal scope of the element.
+    I believe this is what React solves with mounting and unmounting -->
+    <!-- Because of this difference, I'm exasperating the elements' style by placing it in-line to make this import idea stand out. -->
+    <canvas id="canvas" width="800px" height="600px"></canvas>
 
     <script src="script.js"></script>
   </body>
