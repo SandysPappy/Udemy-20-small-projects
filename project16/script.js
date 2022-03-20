@@ -14,7 +14,7 @@ function showData(data) {
   data.data.forEach((song) => {
     output += `
     <li>
-    <span><strong>${song.artist.name}}</strong> - ${song.title}</span>
+    <span><strong>${song.artist.name}</strong> - ${song.title}</span>
     <button class="btn" data-artist="${song.artist.name}"
     data-songtitle="${song.title}"
      >Get Lyrics</button>
@@ -70,6 +70,19 @@ async function searchSongs(term) {
   showData(data);
 }
 
+async function getLyrics(artist, songTitle) {
+  const res = await fetch(`${apiURL}/v1/${artist}/${songTitle}`);
+  const data = await res.json();
+
+  // replaces all newlines with html line breaks (pretty gross)
+  const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, '<br>');
+
+  result.innerHTML = `<h2><strong>${artist}</strong> - ${songTitle}</h2>
+    <span>${lyrics}</span>`;
+
+  more.innerHTML = '';
+}
+
 // calls search api with form data and updates the DOM
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -80,5 +93,16 @@ form.addEventListener('submit', (e) => {
     alert('Please type in a search term');
   } else {
     searchSongs(searchTerm);
+  }
+});
+
+result.addEventListener('click', (e) => {
+  const clickedEl = e.target;
+
+  if (clickedEl.tagName === 'BUTTON') {
+    const artist = clickedEl.getAttribute('data-artist');
+    const songTitle = clickedEl.getAttribute('data-songTitle');
+
+    getLyrics(artist, songTitle);
   }
 });
