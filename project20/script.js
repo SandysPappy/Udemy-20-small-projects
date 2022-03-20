@@ -61,20 +61,45 @@ function createList() {
   addEventListeners();
 }
 
+// In the following execution contexts, 'this' refers
+// to the item object. These Item objects are what is executing
+// each callback function
 function dragStart() {
-  console.log('Event: ', 'dragstart');
+  //   console.log('Event: ', 'dragstart');
+
+  // + converts to a Number
+  // closest traverses the element's tree and returns the first
+  // element matching the type (will return itself too). Returns null if not found
+  // getAttribute returns the value of the attribute. (which is a string)
+  dragStartIndex = +this.closest('li').getAttribute('data-index');
 }
 function dragEnter() {
-  console.log('Event: ', 'dragenter');
+  //   console.log('Event: ', 'dragenter');
+  this.classList.add('over');
 }
 function dragLeave() {
-  console.log('Event: ', 'dragleave');
+  //   console.log('Event: ', 'dragleave');
+  this.classList.remove('over');
 }
-function dragOver() {
-  console.log('Event: ', 'dragover');
+// Need to handle the drag over event here in order to allow a Drop event
+function dragOver(e) {
+  e.preventDefault();
+  //   console.log('Event: ', 'dragover');
 }
 function dragDrop() {
-  console.log('Event: ', 'drop');
+  //   console.log('Event: ', 'drop');
+  const dragEndIndex = +this.getAttribute('data-index');
+  swapItems(dragStartIndex, dragEndIndex);
+
+  this.classList.remove('over');
+}
+
+function swapItems(fromIndex, toIndex) {
+  const itemOne = listItems[fromIndex].querySelector('.draggable');
+  const itemTwo = listItems[toIndex].querySelector('.draggable');
+
+  listItems[toIndex].appendChild(itemOne);
+  listItems[fromIndex].appendChild(itemTwo);
 }
 
 function addEventListeners() {
@@ -86,7 +111,7 @@ function addEventListeners() {
   });
   dragListItems.forEach((item) => {
     item.addEventListener('dragover', dragOver);
-    item.addEventListener('drag', dragDrop);
+    item.addEventListener('drop', dragDrop);
     item.addEventListener('dragenter', dragEnter);
     item.addEventListener('dragleave', dragLeave);
   });
