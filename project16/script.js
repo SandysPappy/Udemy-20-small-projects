@@ -5,7 +5,55 @@ const more = document.getElementById('more');
 
 const apiURL = 'https://api.lyrics.ovh';
 
-function showData(data) {}
+// Don't do this in prod. It's not a safe use of .innerHTML
+//
+// updates the DOM with data using the api's object notation
+function showData(data) {
+  let output = '';
+
+  data.data.forEach((song) => {
+    output += `
+    <li>
+    <span><strong>${song.artist.name}}</strong> - ${song.title}</span>
+    <button class="btn" data-artist="${song.artist.name}"
+    data-songtitle="${song.title}"
+     >Get Lyrics</button>
+    </li>
+    `;
+  });
+
+  result.innerHTML = `
+    <ul class="songs">
+    ${output}
+    </ul>
+`;
+
+  // adds the next and prev page button
+  if (data.prev || data.next) {
+    more.innerHTML = `
+    ${
+      data.prev
+        ? `<button class="btn" onclick="getMoreSongs('${data.prev}')">Prev</button>`
+        : ''
+    }
+    ${
+      data.next
+        ? `<button class="btn" onclick="getMoreSongs('${data.next}')">Next</button>`
+        : ''
+    }
+    `;
+  } else {
+    more.innerHTML = '';
+  }
+}
+
+// see README.md for details
+// need to requst access from heroku server to work
+async function getMoreSongs(url) {
+  const res = await fetch(`https://cors-anywhere.herokuapp.com/${url}`);
+  const data = await res.json();
+  showData(data);
+}
 
 // calls api and updates the DOM
 async function searchSongs(term) {
