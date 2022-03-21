@@ -34,7 +34,7 @@ createList();
 //   })
 // );
 
-// insert list items into the DOM
+// Populates the listItems array and adds the elements into the DOM
 function createList() {
   // creates a copy
   [...topCompanies]
@@ -58,6 +58,7 @@ function createList() {
       draggable_list.appendChild(listItem);
     });
 
+  // adds drag event listeners
   addEventListeners();
 }
 
@@ -76,6 +77,8 @@ function dragStart() {
 function dragEnter() {
   //   console.log('Event: ', 'dragenter');
   this.classList.add('over');
+  this.classList.remove('right');
+  this.classList.remove('wrong');
 }
 function dragLeave() {
   //   console.log('Event: ', 'dragleave');
@@ -94,12 +97,27 @@ function dragDrop() {
   this.classList.remove('over');
 }
 
+// recall that for .appendChild(), if the node already has a parent,
+// the node is first removed
 function swapItems(fromIndex, toIndex) {
   const itemOne = listItems[fromIndex].querySelector('.draggable');
   const itemTwo = listItems[toIndex].querySelector('.draggable');
 
   listItems[toIndex].appendChild(itemOne);
   listItems[fromIndex].appendChild(itemTwo);
+}
+
+function checkOrder() {
+  listItems.forEach((listItem, index) => {
+    const companyName = listItem.querySelector('.draggable').innerText.trim();
+    if (companyName !== topCompanies[index]) {
+      listItem.classList.remove('right');
+      listItem.classList.add('wrong');
+    } else {
+      listItem.classList.remove('wrong');
+      listItem.classList.add('right');
+    }
+  });
 }
 
 function addEventListeners() {
@@ -116,3 +134,5 @@ function addEventListeners() {
     item.addEventListener('dragleave', dragLeave);
   });
 }
+
+check.addEventListener('click', checkOrder);
