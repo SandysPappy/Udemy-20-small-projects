@@ -77,8 +77,6 @@ function dragStart() {
 function dragEnter() {
   //   console.log('Event: ', 'dragenter');
   this.classList.add('over');
-  this.classList.remove('right');
-  this.classList.remove('wrong');
 }
 function dragLeave() {
   //   console.log('Event: ', 'dragleave');
@@ -92,6 +90,12 @@ function dragOver(e) {
 function dragDrop() {
   //   console.log('Event: ', 'drop');
   const dragEndIndex = +this.getAttribute('data-index');
+
+  this.classList.remove('right');
+  this.classList.remove('wrong');
+  listItems[dragStartIndex].classList.remove('right');
+  listItems[dragStartIndex].classList.remove('wrong');
+
   swapItems(dragStartIndex, dragEndIndex);
 
   this.classList.remove('over');
