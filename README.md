@@ -1,6 +1,6 @@
 ### Original course material by Brad Traversy. Course includes *only* HTML5, CSS, and JavaScript.
 
-###Original repo: https://github.com/bradtraversy/vanillawebprojects
+#### Original repo: https://github.com/bradtraversy/vanillawebprojects
 
 This repo contains a collection of my own notes taken from the above Udemy course. None of the code was directly copy and pasted, but rather meticulously hand-typed following along through the videos.
 
